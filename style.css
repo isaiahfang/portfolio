@@ -38,7 +38,7 @@ body {
       padding-bottom: 0.4em;
     }
 
-    --color-accent: oklch(65% 50% 0);
+    --color-accent: oklch(67.27% 0.1099 137.77);
 
     html {
       accent-color: var(--color-accent);

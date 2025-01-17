@@ -51,4 +51,28 @@ body {
       background-color: oklch(from var(--color-accent) 95% 5% h);
       padding-bottom: 0.4em;
     }
+
+    input {
+      font: inherit;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin-block: 0.4em;
+    }
+
+    textarea {
+      font: inherit;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin-block: 0.4em;
+    }
+
+    button {
+      font: inherit;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      margin-block: 0.4em;
+    }
   }

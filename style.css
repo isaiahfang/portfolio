@@ -15,6 +15,9 @@ body {
     nav {
       display: flex;
       margin-bottom: 10ch;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: oklch(80% 3% 200);
     }
     a {
       flex: 1;

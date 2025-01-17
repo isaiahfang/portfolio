@@ -57,7 +57,6 @@ body {
       display: block;
       width: 100%;
       box-sizing: border-box;
-      margin-block: 0.4em;
     }
 
     textarea {
@@ -65,7 +64,6 @@ body {
       display: block;
       width: 100%;
       box-sizing: border-box;
-      margin-block: 0.4em;
     }
 
     button {
@@ -73,6 +71,10 @@ body {
       display: block;
       width: 100%;
       box-sizing: border-box;
-      margin-block: 0.4em;
+    }
+
+    label {
+      display: block;
+      margin-block: 1em;
     }
   }

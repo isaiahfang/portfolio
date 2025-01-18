@@ -34,6 +34,12 @@ body {
       padding-bottom: 0.4em;
     }
 
+    a.resume {
+      display: contents;
+      text-decoration: none;
+      color: blue;
+    }
+
     --color-accent: oklch(67.27% 0.1099 137.77);
 
     html {

@@ -7,11 +7,7 @@ body {
     margin-inline: max(1em, (100% - 100ch) / 2);
     padding: 15px;
 
-    ul {
-      display: contents;
-    }
-
-    li {
+    ul, li {
       display: contents;
     }
 
@@ -52,15 +48,7 @@ body {
       padding-bottom: 0.4em;
     }
 
-    input {
-      font: inherit;
-    }
-
-    textarea {
-      font: inherit;
-    }
-
-    button {
+    input, textarea, button {
       font: inherit;
     }
 
@@ -84,5 +72,22 @@ body {
     div.projects {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+      gap: 1em;
+      article {
+        grid-template-rows: subgrid;
+        grid-row: span 3;
+      }
+      h2 {
+        margin: 0;
+      }
+    }
+
+    h1 {
+      font-size: 400%;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.1;
+      text-wrap: balance;
     }
   }

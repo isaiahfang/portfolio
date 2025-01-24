@@ -23,6 +23,9 @@ for (let p of pages) {
     if (!ARE_WE_HOME && !url.startsWith('http')) {
         url = '../' + url;
     }
+    // else {
+    //     url = 'portfolio/' + url;
+    // }
     
     let title = p.title;
 
@@ -40,3 +43,23 @@ for (let p of pages) {
 
     nav.append(a);
 }
+
+document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+      <label class="color-scheme">
+          Theme:
+          <select>
+              <option value="light dark">Automatic</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+          </select>
+      </label>`
+);
+
+let select = document.querySelector('.color-scheme select');
+
+select.addEventListener('input', function (event) {
+    console.log('color scheme changed to', event.target.value);
+    document.documentElement.style.setProperty('color-scheme', event.target.value);
+});

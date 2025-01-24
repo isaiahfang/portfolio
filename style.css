@@ -54,7 +54,7 @@ body {
     padding-bottom: 0.4em;
   }
 
-  input, textarea, button {
+  input, textarea, button, select {
     font: inherit;
   }
 
@@ -96,4 +96,21 @@ body {
     line-height: 1.1;
     text-wrap: balance;
   }
+}
+
+:root {
+  color-scheme: light dark;
+  nav {
+    --border-color: oklch(50% 10% 200 / 40%);
+  }
+  border-bottom-color: var(--border-color);
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+}
+
+label.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font: 80%;
+  font-family: inherit;
 }

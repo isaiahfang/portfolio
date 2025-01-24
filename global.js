@@ -26,8 +26,5 @@ document.body.prepend(nav);
 for (let p of pages) {
     let url = p.url;
     let title = p.title;
-    nav.insertAdjacentHTML('beforeend', `<a href="https://isaiahfang.github.io/portfolio/">Home</a>`);
-    nav.insertAdjacentHTML('beforeend', `<a href="https://isaiahfang.github.io/portfolio/projects/">Projects</a>`);
-    nav.insertAdjacentHTML('beforeend', `<a href="https://isaiahfang.github.io/portfolio/contact/">Contact</a>`);
-    nav.insertAdjacentHTML('beforeend', `<a href="https://github.com/isaiahfang">Github</a>`);
+    nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
 }

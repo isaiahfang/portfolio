@@ -44,7 +44,6 @@ body {
 
     html {
       accent-color: var(--color-accent);
-      color-scheme: dark;
     }
 
     a:hover {
@@ -98,4 +97,3 @@ body {
       text-wrap: balance;
     }
   }
-  

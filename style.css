@@ -96,6 +96,14 @@ body {
     line-height: 1.1;
     text-wrap: balance;
   }
+
+  label.color-scheme {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font: 80%;
+    font-family: inherit;
+  }
 }
 
 :root {
@@ -105,12 +113,4 @@ body {
   }
   border-bottom-color: var(--border-color);
   background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
-}
-
-label.color-scheme {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font: 80%;
-  font-family: inherit;
 }

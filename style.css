@@ -12,6 +12,7 @@ body {
   }
 
   nav {
+    --border-color: oklch(50% 10% 200 / 40%);
     display: flex;
     margin-bottom: 2ch;
     border-bottom-width: 1px;
@@ -40,8 +41,6 @@ body {
     color: blue;
   }
 
-  --color-accent: oklch(67.27% 0.1099 137.77);
-
   html {
     accent-color: var(--color-accent);
   }
@@ -50,7 +49,7 @@ body {
     border-bottom-width: 0.4em;
     border-bottom-style: solid;
     border-bottom-color: var(--color-accent);
-    background-color: oklch(from var(--color-accent) 95% 5% h);
+    background-color: color-mix(in oklch, var(--color-accent), canvas 65%);
     padding-bottom: 0.4em;
   }
 
@@ -108,9 +107,6 @@ body {
 
 :root {
   color-scheme: light dark;
-  nav {
-    --border-color: oklch(50% 10% 200 / 40%);
-  }
   border-bottom-color: var(--border-color);
-  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
+  --color-accent: oklch(65% 50% 0);
 }

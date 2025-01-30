@@ -103,6 +103,16 @@ body {
     font: 80%;
     font-family: inherit;
   }
+
+  dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5em;
+  }
+
+  dt {
+    font-weight: bold;
+  }
 }
 
 :root {

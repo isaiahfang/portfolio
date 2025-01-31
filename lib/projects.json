@@ -1,9 +1,9 @@
 [
 	{
-		"title": "Lorem ipsum dolor sit.",
-		"year": "2024",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam dolor quos, quod assumenda explicabo odio, nobis ipsa laudantium quas eum veritatis ullam sint porro minima modi molestias doloribus cumque odit."
+		"title": "Project 1: Expository Visualization",
+		"year": "2025",
+		"image": "../images/project1.png",
+		"description": "This is an Expository Visualization of Average Hour of Sunshine in terms of Seasons and Quarters among a range of different cities across the US. The project was completed in DSC 106 at UC San Diego."
 	},
 	{
 		"title": "Architecto minima sed omnis?",

@@ -36,7 +36,6 @@ for (let d of data) {
   angle = endAngle;
 }
 
-
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
 arcs.forEach((arc, idx) => {

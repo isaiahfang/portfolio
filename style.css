@@ -6,110 +6,111 @@ body {
   max-width: 100ch;
   margin-inline: max(1em, (100% - 100ch) / 2);
   padding: 15px;
+}
 
-  nav {
-    --border-color: oklch(50% 10% 200 / 40%);
-    display: flex;
-    margin-bottom: 2ch;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: oklch(80% 3% 200);
+nav {
+  --border-color: oklch(50% 10% 200 / 40%);
+  display: flex;
+  margin-bottom: 2ch;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: oklch(80% 3% 200);
+}
+
+a {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+  padding: 0.5em;
+}
+
+a.current {
+  border-bottom-width: 0.4em;
+  border-bottom-style: solid;
+  border-bottom-color: oklch(80% 3% 200);
+  padding-bottom: 0.4em;
+}
+
+a.resume {
+  display: contents;
+  text-decoration: none;
+  color: blue;
+}
+
+html {
+  accent-color: var(--color-accent);
+}
+
+a:hover {
+  border-bottom-width: 0.4em;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-accent);
+  background-color: color-mix(in oklch, var(--color-accent), canvas 65%);
+  padding-bottom: 0.4em;
+}
+
+input, textarea, button, select {
+  font: inherit;
+}
+
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+}
+
+label {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+}
+
+button {
+  display: grid;
+  grid-column: 1 / -1;
+}
+
+div.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+  article {
+    grid-template-rows: subgrid;
+    grid-row: span 3;
   }
-
-  a {
-    flex: 1;
-    text-decoration: none;
-    color: inherit;
-    text-align: center;
-    padding: 0.5em;
-  }
-
-  a.current {
-    border-bottom-width: 0.4em;
-    border-bottom-style: solid;
-    border-bottom-color: oklch(80% 3% 200);
-    padding-bottom: 0.4em;
-  }
-
-  a.resume {
-    display: contents;
-    text-decoration: none;
-    color: blue;
-  }
-
-  html {
-    accent-color: var(--color-accent);
-  }
-
-  a:hover {
-    border-bottom-width: 0.4em;
-    border-bottom-style: solid;
-    border-bottom-color: var(--color-accent);
-    background-color: color-mix(in oklch, var(--color-accent), canvas 65%);
-    padding-bottom: 0.4em;
-  }
-
-  input, textarea, button, select {
-    font: inherit;
-  }
-
-  form {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1em;
-  }
-
-  label {
-    display: grid;
-    grid-template-columns: subgrid;
-    grid-column: 1 / -1;
-  }
-
-  button {
-    display: grid;
-    grid-column: 1 / -1;
-  }
-
-  div.projects {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-    gap: 1em;
-    article {
-      grid-template-rows: subgrid;
-      grid-row: span 3;
-    }
-    h2 {
-      margin: 0;
-    }
-  }
-
-  h1 {
-    font-size: 400%;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    line-height: 1.1;
-    text-wrap: balance;
-  }
-
-  label.color-scheme {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font: 80%;
-    font-family: inherit;
-  }
-
-  dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.5em;
-  }
-
-  dt {
-    font-weight: bold;
+  h2 {
+    margin: 0;
   }
 }
+
+h1 {
+  font-size: 400%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+label.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font: 80%;
+  font-family: inherit;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5em;
+}
+
+dt {
+  font-weight: bold;
+}
+
 
 :root {
   color-scheme: light dark;
@@ -122,25 +123,39 @@ body {
   margin-block: 2em;
 
   overflow: visible;
+  align-items: center;
+  gap: 1.5em
 }
 
-#swatch {
+.swatch {
   display: inline-block;
-  height: 20em;
-  width: 20em;
+  width: 1em;
+  height: 1em;
   background-color: var(--color);
   border-radius: 50%;
-  align-items: center;
-  gap: 1em;
 }
 
-#legend {
+.legend {
   display: grid;
-  grid-template: auto-fill;
-  min-width: 20em;
   grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  border: 1px gray solid;
+  border-radius: 4px;
+  margin: 0;
+  padding: 1em;
+  flex: 1;
 }
 
-li {
+.legend li {
+  list-style: none;
+  white-space: nowrap;
+}
+
+.container {
+  max-width: 95ch;
+  width: 100%;
+  padding: 1em;
   display: flex;
+  align-items: center;
+  gap: 2em;
 }

@@ -7,10 +7,6 @@ body {
   margin-inline: max(1em, (100% - 100ch) / 2);
   padding: 15px;
 
-  ul, li {
-    display: contents;
-  }
-
   nav {
     --border-color: oklch(50% 10% 200 / 40%);
     display: flex;
@@ -119,4 +115,32 @@ body {
   color-scheme: light dark;
   border-bottom-color: var(--border-color);
   --color-accent: oklch(65% 50% 0);
+}
+
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+
+  overflow: visible;
+}
+
+#swatch {
+  display: inline-block;
+  height: 20em;
+  width: 20em;
+  background-color: var(--color);
+  border-radius: 50%;
+  align-items: center;
+  gap: 1em;
+}
+
+#legend {
+  display: grid;
+  grid-template: auto-fill;
+  min-width: 20em;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+}
+
+li {
+  display: flex;
 }

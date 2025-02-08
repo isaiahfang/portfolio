@@ -1,5 +1,7 @@
 import { fetchJSON, renderProjects } from '../global.js';
 const projects = await fetchJSON('../lib/projects.json');
+const projectsTitle = document.querySelector('.projects-title');
+const searchInput = document.querySelector('.searchBar');
 const projectsContainer = document.querySelector('.projects');
 renderProjects(projects, projectsContainer, 'h2');
 
@@ -8,48 +10,83 @@ count.textContent = projects.length + " Projects";
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
-let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+let selectedIndex = -1;
 
-let rolledData = d3.rollups(
-    projects,
-    (v) => v.length,
-    (d) => d.year,
+function renderPieChart(projectsGiven) {
+  let newRolledData = d3.rollups(
+      projectsGiven,
+      (v) => v.length,
+      (d) => d.year
   );
-  
-  let data = rolledData.map(([year, count]) => {
-      return { value: count, label: year };
+
+  let newData = newRolledData.map(([year, count]) => {
+      return { label: year, value: count };
   });
 
-let sliceGenerator = d3.pie().value((d) => d.value);
-let arcData = sliceGenerator(data);
-let arcs = arcData.map((d) => arcGenerator(d));
+  let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  let sliceGenerator = d3.pie().value((d) => d.value);
+  let newArcData = sliceGenerator(newData);
+  let newArcs = newArcData.map((d) => arcGenerator(d));
 
-let total = 0;
+  let svg = d3.select('svg');
+  svg.selectAll('path').remove();
+  let legend = d3.select('.legend');
+  legend.html('');
 
-for (let d of data) {
-  total += d;
+  let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+  newArcs.forEach((arcPath, idx) => {
+      svg.append('path')
+          .attr('d', arcPath)
+          .attr('fill', colors(idx))
+          .on('click', () => {
+              selectedIndex = (selectedIndex === idx) ? -1 : idx;
+
+              svg
+                .selectAll('path')
+                .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
+
+              legend
+                .selectAll('li')
+                .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
+
+              if (selectedIndex === -1) {
+                  renderProjects(projects, projectsContainer, 'h2');
+              } else {
+                  const selectedYear = newData[selectedIndex].label;
+                  const filteredProjects = projects.filter(project => project.year === selectedYear);
+                  renderProjects(filteredProjects, projectsContainer, 'h2');
+              }
+          });
+  });
+
+  newData.forEach((d, idx) => {
+      legend.append('li')
+          .attr('style', `--color:${colors(idx)}`)
+          .html(`<span class="swatch" style="background-color:${colors(idx)}"></span> ${d.label} <em>(${d.value})</em>`);
+  });
+
+  legend.selectAll('li')
+      .attr('class', (_, idx) => idx === selectedIndex ? 'selected' : '');
 }
 
-let angle = 0;
+renderPieChart(projects);
 
-for (let d of data) {
-  let endAngle = angle + (d / total) * 2 * Math.PI;
-  arcData.push({ startAngle: angle, endAngle });
-  angle = endAngle;
+function setQuery(queryString) {
+  return projects.filter(project => {
+      let values = Object.values(project).join('\n').toLowerCase();
+      return values.includes(queryString.toLowerCase());
+  });
 }
 
-let colors = d3.scaleOrdinal(d3.schemeTableau10);
+searchInput.addEventListener('input', (event) => {
+  let filteredProjects = setQuery(event.target.value);
 
-arcs.forEach((arc, idx) => {
-    d3.select('svg')
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', colors(idx))
-})
+  renderProjects(filteredProjects, projectsContainer, 'h2');
+  if (projectsTitle) {
+      projectsTitle.textContent = `${filteredProjects.length} Projects`;
+  }
 
-let legend = d3.select('.legend');
-data.forEach((d, idx) => {
-    legend.append('li')
-          .attr('style', `--color:${colors(idx)}`) // set the style attribute while passing in parameters
-          .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`); // set the inner html of <li>
-})
+  selectedIndex = -1;
+  renderPieChart(filteredProjects);
+});

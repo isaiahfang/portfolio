@@ -77,7 +77,6 @@ function displayStats() {
     dl.append('dd').text(d3.max(data, (d) => d.file));
 }
 
-
 function createScatterplot() {
     const width = 1000;
     const height = 600;
@@ -138,18 +137,7 @@ function createScatterplot() {
         .attr('cx', (d) => xScale(d.datetime))
         .attr('cy', (d) => yScale(d.hourFrac))
         .attr('r', 5)
-        .attr('fill', 'steelblue');
-    
-    // Add gridlines BEFORE the axes
-    const gridlines = svg
-        .append('g')
-        .attr('class', 'gridlines')
-        .attr('transform', `translate(${usableArea.left}, 0)`);
-
-    // Create gridlines as an axis with no labels and full-width ticks
-    gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
-
-    dots
+        .attr('fill', 'steelblue')
         .on('mouseenter', (event, commit) => {
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
@@ -159,11 +147,23 @@ function createScatterplot() {
             updateTooltipContent({});
             updateTooltipVisibility(false);
         });
+    
+    // Add gridlines BEFORE the axes
+    const gridlines = svg
+        .append('g')
+        .attr('class', 'gridlines')
+        .attr('transform', `translate(${usableArea.left}, 0)`);
+
+    // Create gridlines as an axis with no labels and full-width ticks
+    gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
 }
 
 function updateTooltipContent(commit) {
     const link = document.getElementById('commit-link');
     const date = document.getElementById('commit-date');
+    const time = document.getElementById('commit-time');
+    const author = document.getElementById('commit-author');
+    const linesEdited = document.getElementById('commit-lines-edited');
 
     if (Object.keys(commit).length === 0) return;
 
@@ -172,6 +172,12 @@ function updateTooltipContent(commit) {
     date.textContent = commit.datetime?.toLocaleString('en', {
         dateStyle: 'full',
     });
+
+    time.textContent = commit.datetime?.toLocaleString('en', {
+        timeStyle: 'short',
+    });
+    author.textContent = commit.author;
+    linesEdited.textContent = commit.totalLines;
 }
 
 function updateTooltipVisibility(isVisible) {

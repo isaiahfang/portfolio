@@ -183,6 +183,44 @@ path {
   }
 }
 
+#profile-stats dl{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+  padding: 1em;
+}
+
+#profile-stats dt {
+  grid-row: 1;
+  color: gray;
+  font: 1em system-ui;
+}
+
+#profile-stats dd { */
+  grid-row: 2;
+  margin: 0;
+  font: 1.5em system-ui;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1em;
+  padding: 1em;
+}
+
+.stats dt {
+  grid-row: 1;
+  color: gray;
+  font: 1em system-ui;
+}
+
+.stats dd {
+  grid-row: 2;
+  margin: 0;
+  font: 1.5em system-ui;
+}
+
 .gridlines path, .gridlines line {
   /* subtle gridlines */
   stroke: grey;

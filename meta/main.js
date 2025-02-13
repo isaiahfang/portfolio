@@ -5,7 +5,7 @@ let yScale;
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
         ...row,
-        line: Number(row.line), // or just +row.line
+        line: Number(row.line),
         depth: Number(row.depth),
         length: Number(row.length),
         date: new Date(row.date + 'T00:00' + row.timezone),
@@ -42,8 +42,6 @@ function processCommits() {
   
             Object.defineProperty(ret, 'lines', {
                 value: lines,
-                // What other options do we need to set?
-                // Hint: look up configurable, writable, and enumerable
                 writable: true,
                 enumerable: false,
                 configurable: true,
@@ -54,21 +52,16 @@ function processCommits() {
 }
 
 function displayStats() {
-    // Process commits first
     processCommits();
 
-    // Create the dl element
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
-    // Add total LOC
     dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
     dl.append('dd').text(data.length);
 
-    // Add total commits
     dl.append('dt').text('Total commits');
     dl.append('dd').text(commits.length);
 
-    // Add more stats as needed...
     dl.append('dt').text('Number of Files');
     dl.append('dd').text(d3.groups(data, (d) => d.file).length);
 
@@ -158,14 +151,14 @@ function createScatterplot() {
             updateTooltipVisibility(false);
         });
     
-    // Add gridlines BEFORE the axes
     const gridlines = svg
         .append('g')
         .attr('class', 'gridlines')
         .attr('transform', `translate(${usableArea.left}, 0)`);
 
-    // Create gridlines as an axis with no labels and full-width ticks
     gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+
+    brushSelector();
 }
 
 function updateTooltipContent(commit) {
@@ -188,8 +181,6 @@ function updateTooltipContent(commit) {
     });
     author.textContent = commit.author;
     linesEdited.textContent = commit.totalLines;
-
-    brushSelector();
 }
 
 function updateTooltipVisibility(isVisible) {
@@ -214,6 +205,8 @@ let brushSelection = null;
 function brushed(event) {
     brushSelection = event.selection;
     updateSelection();
+    updateSelectionCount();
+    updateLanguageBreakdown()
 }
 
 function isCommitSelected(commit) {
@@ -228,8 +221,54 @@ function isCommitSelected(commit) {
 
     return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
 }
-  
+
 function updateSelection() {
-    // Update visual state of dots based on selection
     d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
+}
+
+function updateSelectionCount() {
+    const selectedCommits = brushSelection
+        ? commits.filter(isCommitSelected)
+        : [];
+  
+    const countElement = document.getElementById('selection-count');
+    countElement.textContent = `${
+        selectedCommits.length || 'No'
+    } commits selected`;
+  
+    return selectedCommits;
+}
+
+function updateLanguageBreakdown() {
+    const selectedCommits = brushSelection
+        ? commits.filter(isCommitSelected)
+        : [];
+    const container = document.getElementById('language-breakdown');
+  
+    if (selectedCommits.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+    const requiredCommits = selectedCommits.length ? selectedCommits : commits;
+    const lines = requiredCommits.flatMap((d) => d.lines);
+  
+    const breakdown = d3.rollup(
+        lines,
+        (v) => v.length,
+        (d) => d.type
+    );
+  
+    container.innerHTML = '';
+  
+    for (const [language, count] of breakdown) {
+        const proportion = count / lines.length;
+        const formatted = d3.format('.1~%')(proportion);
+    
+        container.innerHTML += `
+                <dt>${language.toUpperCase()}</dt>
+                <dd>${count} lines (${formatted})</dd>
+            `;
+    }
+  
+    return breakdown;
 }

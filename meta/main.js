@@ -72,6 +72,8 @@ function displayStats() {
     dl.append('dd').text(d3.max(data, (d) => d.file));
 }
 
+updateTooltipVisibility(false)
+
 function createScatterplot() {
     const width = 1000;
     const height = 600;
@@ -124,7 +126,7 @@ function createScatterplot() {
     const rScale = d3
         .scaleSqrt()
         .domain([minLines, maxLines])
-        .range([5, 12]);
+        .range([7, 20]);
 
     const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
 

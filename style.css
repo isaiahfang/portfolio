@@ -221,7 +221,7 @@ path {
   font: 1.5em system-ui;
 }
 
-.gridlines path, .gridlines line {
+.gridlines line {
   /* subtle gridlines */
   stroke: grey;
   stroke-opacity: 0.3;

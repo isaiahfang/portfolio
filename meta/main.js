@@ -1,4 +1,6 @@
 let data = [];
+let xScale;
+let yScale;
 
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
@@ -87,13 +89,13 @@ function createScatterplot() {
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
-    const xScale = d3
+    xScale = d3
         .scaleTime()
         .domain(d3.extent(commits, (d) => d.datetime))
         .range([0, width])
         .nice();
     
-    const yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
+    yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
 
     const margin = { top: 10, right: 10, bottom: 30, left: 20 };
     
@@ -186,6 +188,8 @@ function updateTooltipContent(commit) {
     });
     author.textContent = commit.author;
     linesEdited.textContent = commit.totalLines;
+
+    brushSelector();
 }
 
 function updateTooltipVisibility(isVisible) {
@@ -197,4 +201,35 @@ function updateTooltipPosition(event) {
     const tooltip = document.getElementById('commit-tooltip');
     tooltip.style.left = `${event.clientX}px`;
     tooltip.style.top = `${event.clientY}px`;
+}
+
+function brushSelector() {
+    const svg = document.querySelector('svg');
+    d3.select(svg).call(d3.brush().on('start brush end', brushed));
+    d3.select(svg).selectAll('.dots, .overlay ~ *').raise();
+}
+
+let brushSelection = null;
+
+function brushed(event) {
+    brushSelection = event.selection;
+    updateSelection();
+}
+
+function isCommitSelected(commit) {
+    if (!brushSelection) {
+        return false;
+    }
+    const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
+    const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
+
+    const x = xScale(commit.date);
+    const y = yScale(commit.hourFrac);
+
+    return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+}
+  
+function updateSelection() {
+    // Update visual state of dots based on selection
+    d3.selectAll('circle').classed('selected', (d) => isCommitSelected(d));
 }

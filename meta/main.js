@@ -163,7 +163,7 @@ function updateTooltipContent(commit) {
     const date = document.getElementById('commit-date');
     const time = document.getElementById('commit-time');
     const author = document.getElementById('commit-author');
-    const linesEdited = document.getElementById('commit-lines-edited');
+    const linesEdited = document.getElementById('commit-lines');
 
     if (Object.keys(commit).length === 0) return;
 

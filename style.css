@@ -182,3 +182,9 @@ path {
     fill: var(--color);
   }
 }
+
+.gridlines path, .gridlines line {
+  /* subtle gridlines */
+  stroke: grey;
+  stroke-opacity: 0.3;
+}
